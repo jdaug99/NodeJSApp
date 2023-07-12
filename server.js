@@ -1,16 +1,17 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const Product = require('./models/productModel')
 const app = express()
 
+const PORT = process.env.PORT || 3000
+const MONGO_URL = process.env.MONGO_URL
+
 app.use(express.json())
+app.use(express.urlencoded({extended: false}))
 
 app.get('/', (req, res) => {
-    res.send('Hello Booster API')
-})
-
-app.get('/blog', (req, res) => {
-    res.send('Hello blog!!')
+    res.send('Welcome to: BOOSTER ENGINE')
 })
 
 // Read all Products
@@ -90,11 +91,11 @@ app.delete('/products/:id', async(req, res) => {
 
 mongoose.set("strictQuery", false)
 mongoose.
-connect('mongodb+srv://admin:ADMINbooster@boosterapi.s8yahwv.mongodb.net/Booster-API?retryWrites=true&w=majority')
+connect(MONGO_URL)
 .then(() => {
     console.log('MONGODB CONNECTION ESTABLISHED')
-    app.listen(3000, ()=> {
-        console.log('BOOSTER ENGINE IS LIVE')
+    app.listen(PORT, ()=> {
+        console.log(`BOOSTER ENGINE IS LIVE ON PORT ${PORT}`)
     })    
 }).catch((error) => {
     console.log(error)
