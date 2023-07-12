@@ -13,6 +13,7 @@ app.get('/blog', (req, res) => {
     res.send('Hello blog!!')
 })
 
+// Read all Products
 app.get('/products', async(req, res) => {
     try {
 
@@ -24,6 +25,7 @@ app.get('/products', async(req, res) => {
     }
 })
 
+// Read Product by ID
 app.get('/products/:id', async(req, res) =>{
     try {
         const {id} = req.params;
@@ -35,6 +37,7 @@ app.get('/products/:id', async(req, res) =>{
     }
 })
 
+// Create a Product
 app.post('/products', async(req, res) => {
     try {
 
@@ -47,20 +50,38 @@ app.post('/products', async(req, res) => {
     }
 })
 
-// Update a product
+// Update a Product
 app.put('/products/:id', async(req, res) => {
     try {
         const {id} = req.params;
-        const product = await Product.findByIdandUpdate(id, req.body)
+        const product = await Product.findByIdAndUpdate(id, req.body)
         
-        // If product not found in db
+        // If Product not found in db
         if(!product) {
             
             res.status(404).json({message: `No product found with ID ${id}`})
         }
-        //Else return updated product
-        const updatedProduct = await Product.findByIdandUpdate(id, req.body)
+        //Else return updated Product
+        const updatedProduct = await Product.findByIdAndUpdate(id, req.body)
         res.status(200).json(updatedProduct)
+
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
+// Delete a Product
+app.delete('/products/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        const product = await Product.findByIdAndDelete(id)
+        
+        // If Product not found in db
+        if(!product) {
+            
+            res.status(404).json({message: `No product found with ID ${id}`})
+        }
+        res.status(200).json(product)
 
     } catch (error) {
         res.status(500).json({message: error.message})
