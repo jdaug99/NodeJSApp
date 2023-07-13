@@ -3,6 +3,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const productRoute = require('./routes/productRoute')
+const errorMiddleware = require('./middleware/errorMiddleware')
 
 const PORT = process.env.PORT || 3000
 const MONGO_URL = process.env.MONGO_URL
@@ -16,6 +17,8 @@ app.use('/api/products', productRoute)
 app.get('/', (req, res) => {
     res.send('Welcome to Booster\'s Product API (B-PAPI)')
 })
+
+app.use(errorMiddleware)
 
 mongoose.set("strictQuery", false)
 mongoose.
