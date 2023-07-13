@@ -10,20 +10,21 @@ const MONGO_URL = process.env.MONGO_URL
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
-app.use('/api', productRoute)
+// Routes
+app.use('/api/products', productRoute)
 
 app.get('/', (req, res) => {
-    res.send('Welcome to: BOOSTER ENGINE')
+    res.send('Welcome to Booster\'s Product API (B-PAPI)')
 })
 
 mongoose.set("strictQuery", false)
 mongoose.
-connect(MONGO_URL)
-.then(() => {
-    console.log('MONGODB CONNECTION ESTABLISHED')
-    app.listen(PORT, ()=> {
-        console.log(`BOOSTER ENGINE IS LIVE ON PORT ${PORT}`)
+connect(MONGO_URL).then(() => {    
+    console.log('DATABASE CONNECTED')
+
+    app.listen(PORT, ()=> {        
+        console.log(`B-PAPI LIVE ON PORT: ${PORT}`)
     })    
-}).catch((error) => {
-    console.log(error)
+}).catch((error) => {    
+    console.log(error)    
 })
